@@ -15,13 +15,13 @@ public class peoplenames {
             conn = DriverManager.getConnection(dbConnectionString,userName, userPassword);
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName()+": "+e.getMessage());
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
 
         System.out.println("Opened database successfully");
         
-        try{
+        try {
 
         Statement stmt = conn.createStatement();
 
@@ -47,17 +47,17 @@ public class peoplenames {
         }
         sc.close();
 
-    } catch (Exception e){
+    } catch (Exception e) {
         e.printStackTrace();
-        System.err.println(e.getClass().getName()+": "+e.getMessage());
+        System.err.println(e.getClass().getName() + ": " + e.getMessage());
         System.exit(0);
     }
     
         try {
-        conn.close();
-        System.out.println("Connection Closed.");
+            conn.close();
+            System.out.println("Connection Closed.");
         } catch(Exception e) {
-        System.out.println("Connection NOT Closed.");
+            System.out.println("Connection NOT Closed.");
         }
     }
 }

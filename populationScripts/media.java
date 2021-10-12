@@ -22,13 +22,13 @@ public class media {
             conn = DriverManager.getConnection(dbConnectionString,userName, userPassword);
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName()+": "+e.getMessage());
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
 
         System.out.println("Opened database successfully");
        
-        try{
+        try {
             //create a statement object
             Statement stmt = conn.createStatement();
 
@@ -37,7 +37,7 @@ public class media {
 
             Scanner scan = new Scanner(file,"UTF-8");
             
-            while(scan.hasNextLine()){
+            while(scan.hasNextLine()) {
 
                 String line = scan.nextLine();
 
@@ -53,7 +53,7 @@ public class media {
                 //extract elements and store in temp variables
                 StringTokenizer tokens = new StringTokenizer(line, "\t");
                 
-                while(tokens.hasMoreTokens()){
+                while(tokens.hasMoreTokens()) {
                     TitleID = tokens.nextToken();
                     //System.out.println(TitleID);
                     TitleType = tokens.nextToken();
@@ -87,18 +87,18 @@ public class media {
             //close scanner
             scan.close();
 
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName()+": "+e.getMessage());
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
         
         //closing the connection
         try {
-        conn.close();
-        System.out.println("Connection Closed.");
+            conn.close();
+            System.out.println("Connection Closed.");
         } catch(Exception e) {
-        System.out.println("Connection NOT Closed.");
+            System.out.println("Connection NOT Closed.");
         }
     }
 }

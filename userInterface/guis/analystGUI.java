@@ -8,8 +8,8 @@ import java.sql.*;
 public class analystGUI extends JFrame implements ActionListener,ItemListener {
     JTextField txtarea;
     JTextArea mostWatchedMovies;
-    public JRadioButton button1,button2,button3,button4;
-    public JButton rad_pan_button,text_area_button;
+    public JRadioButton button1, button2, button3, button4;
+    public JButton rad_pan_button, text_area_button;
     public JComboBox<String> comb_box;
     public JFrame frame;
 
@@ -20,15 +20,13 @@ public class analystGUI extends JFrame implements ActionListener,ItemListener {
         JPanel panel = new JPanel();
         JPanel b3=new JPanel();
 
-
-
         text_area_button = new JButton("Search");
         text_area_button.addActionListener(this);
         txtarea = new JTextField(20);
         b3.add(txtarea);
         b3.add(text_area_button);
 
-        JLabel companyName = new JLabel("Watchorama",SwingConstants.CENTER);
+        JLabel companyName = new JLabel("Watchorama", SwingConstants.CENTER);
         mostWatchedMovies = new JTextArea("Select a Time Interval");
         mostWatchedMovies.setEditable(false);
         JTextArea watchHistory = new JTextArea("Watch History");
@@ -65,12 +63,12 @@ public class analystGUI extends JFrame implements ActionListener,ItemListener {
         b1.add(button4);
         b1.add(rad_pan_button);
 
-        JLabel filterTime = new JLabel("Filter By Time Perioid",SwingConstants.CENTER);
-        JLabel names = new JLabel("Title name, Number of views",SwingConstants.CENTER);
+        JLabel filterTime = new JLabel("Filter By Time Perioid", SwingConstants.CENTER);
+        JLabel names = new JLabel("Title name, Number of views", SwingConstants.CENTER);
 
         panel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(50,50,50,50);
+        gbc.insets = new Insets(50 , 50, 50, 50);
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -108,7 +106,7 @@ public class analystGUI extends JFrame implements ActionListener,ItemListener {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setVisible(true);
     }
-    public void actionPerformed(ActionEvent event){
+    public void actionPerformed(ActionEvent event) {
         Connection conn = null;
         String teamNumber = "1";
         String sectionNumber = "901";
@@ -119,29 +117,29 @@ public class analystGUI extends JFrame implements ActionListener,ItemListener {
 
         //Connecting to the database 
         try {
-            conn = DriverManager.getConnection(dbConnectionString,userName, userPassword);
+            conn = DriverManager.getConnection(dbConnectionString, userName, userPassword);
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName()+": "+e.getMessage());
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
         String sqlStmt = "";
         Object src = event.getSource();
         String startStmt = "Most watched titles ";
-        if(src == rad_pan_button){
-            if(button1.isSelected()){
+        if(src == rad_pan_button) {
+            if(button1.isSelected()) {
                 startStmt += "from 2000 - 2001";
                 sqlStmt = "SELECT titleid, COUNT(titleid) AS \"most_watched\" FROM customerratings WHERE date >= '1999-12-30' AND date <= '2001-12-31' GROUP BY titleid ORDER BY \"most_watched\" DESC LIMIT 10;";
             }
-            else if(button2.isSelected()){
+            else if(button2.isSelected()) {
                 startStmt += "from 2002 - 2003";
                 sqlStmt = "SELECT titleid, COUNT(titleid) AS \"most_watched\" FROM customerratings WHERE date >= '2002-01-01' AND date <= '2003-12-31' GROUP BY titleid ORDER BY \"most_watched\" DESC LIMIT 10;";
             }
-            else if(button3.isSelected()){
+            else if(button3.isSelected()) {
                 startStmt += "from 2004 - 2005";
                 sqlStmt = "SELECT titleid, COUNT(titleid) AS \"most_watched\" FROM customerratings WHERE date >= '2004-01-01' AND date <= '2005-12-31' GROUP BY titleid ORDER BY \"most_watched\" DESC LIMIT 10;";
             }
-            else if(button4.isSelected()){
+            else if(button4.isSelected()) {
                 startStmt += "All Time";
                 sqlStmt = "SELECT titleid, COUNT(titleid) AS \"most_watched\" FROM customerratings WHERE date >= '1999-12-30' AND date <= '2005-12-31' GROUP BY titleid ORDER BY \"most_watched\" DESC LIMIT 10;";
             }
@@ -151,14 +149,14 @@ public class analystGUI extends JFrame implements ActionListener,ItemListener {
                 ResultSet set = statement.executeQuery(sqlStmt);
                 String result = "";
                 while(set.next()){
-                    result += set.getString("titleid")+ " " + set.getString("most_watched") + " ";
+                    result += set.getString("titleid") + " " + set.getString("most_watched") + " ";
                 }
                 
                 String[] titles = result.split(" ");
                 
                 String output = "";
                 Vector<String> names = new Vector<String>();
-                for(String s : titles){
+                for(String s : titles) {
                     if(s.charAt(0) == 't'){
                         sqlStmt = "SELECT titlename FROM mediainfo WHERE titleid = '" + s + "';";
                         set = statement.executeQuery(sqlStmt);
@@ -168,8 +166,8 @@ public class analystGUI extends JFrame implements ActionListener,ItemListener {
                     }
                 }
                 int i = 0;
-                for(String s : titles){
-                    if(s.charAt(0) == 't'){
+                for(String s : titles) {
+                    if(s.charAt(0) == 't') {
                         output += names.get(i) + " ";
                         i++;
                     }else {
@@ -178,15 +176,15 @@ public class analystGUI extends JFrame implements ActionListener,ItemListener {
                 }
                 output = startStmt + output;
                 mostWatchedMovies.setText(output);
-            }catch(Exception exc){
-                JOptionPane.showMessageDialog(null,"Error accessing Database");
+            }catch(Exception exc) {
+                JOptionPane.showMessageDialog(null, "Error accessing Database");
             }
         }
-        else if(src == text_area_button){
+        else if(src == text_area_button) {
             String s = event.getActionCommand();
             if (s.equals("Search")) {
                 // set the text of the label to the text of the field
-                JOptionPane.showMessageDialog(this,txtarea.getText());
+                JOptionPane.showMessageDialog(this, txtarea.getText());
                 txtarea.setText("");
      
                 // set the text of field to blank
@@ -195,7 +193,7 @@ public class analystGUI extends JFrame implements ActionListener,ItemListener {
         }
         
     }
-    public void itemStateChanged(ItemEvent e){
+    public void itemStateChanged(ItemEvent e) {
         // if the state combobox is changed
         if (e.getSource() == comb_box) {
         }

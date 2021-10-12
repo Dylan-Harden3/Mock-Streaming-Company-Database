@@ -6,12 +6,13 @@ import java.awt.event.*;
 import java.util.*;
 public class customerGUI extends JFrame implements ActionListener,ItemListener {
     int customerid;
-    public JRadioButton button1,button2,button3,button4;
+    public JRadioButton button1, button2, button3, button4;
     public JButton rad_pan_button;
     public JFrame frame;
     public JComboBox<String> comb_box;
     public JTextArea watchHistory;
-    public customerGUI(int id)  {
+
+    public customerGUI(int id) {
         customerid = id;
         frame =  new JFrame();
         
@@ -32,8 +33,8 @@ public class customerGUI extends JFrame implements ActionListener,ItemListener {
         comb_box.addItemListener(this);
         genre.add(comb_box);
 
-        JLabel filterTime = new JLabel("Filter By Time Perioid",SwingConstants.CENTER);
-        JLabel name = new JLabel("Title name",SwingConstants.CENTER);
+        JLabel filterTime = new JLabel("Filter By Time Perioid", SwingConstants.CENTER);
+        JLabel name = new JLabel("Title name", SwingConstants.CENTER);
 
         //make RadioButtons
         button1 = new JRadioButton("2000 - 2001");
@@ -57,10 +58,9 @@ public class customerGUI extends JFrame implements ActionListener,ItemListener {
         b1.add(button4);
         b1.add(rad_pan_button);
 
-        
         panel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(50,50,50,50);
+        gbc.insets = new Insets(50, 50, 50, 50);
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -99,7 +99,7 @@ public class customerGUI extends JFrame implements ActionListener,ItemListener {
         frame.setVisible(true);
     }
 
-    public void actionPerformed(ActionEvent e){
+    public void actionPerformed(ActionEvent e) {
 
         Connection conn = null;
         String teamNumber = "1";
@@ -114,24 +114,24 @@ public class customerGUI extends JFrame implements ActionListener,ItemListener {
             conn = DriverManager.getConnection(dbConnectionString,userName, userPassword);
         } catch (Exception exc) {
             exc.printStackTrace();
-            System.err.println(exc.getClass().getName()+": "+exc.getMessage());
+            System.err.println(exc.getClass().getName() + ": " + exc.getMessage());
             System.exit(0);
         }
         String sqlStmt = "";
         String startStmt = "Your watch history ";
-        if(button1.isSelected()){
+        if(button1.isSelected()) {
             startStmt += "from 2000 - 2001";
             sqlStmt = "SELECT titleid, COUNT(titleid) AS \"most_watched\" FROM customerratings WHERE date >= '1999-12-30' AND date <= '2001-12-31' AND customerid = " + String.valueOf(customerid) + " GROUP BY titleid ORDER BY \"most_watched\" DESC LIMIT 10;";
         }
-        else if(button2.isSelected()){
+        else if(button2.isSelected()) {
             startStmt += "from 2002 - 2003";
             sqlStmt = "SELECT titleid, COUNT(titleid) AS \"most_watched\" FROM customerratings WHERE date >= '2002-01-01' AND date <= '2003-12-31' AND customerid = " + String.valueOf(customerid) + " GROUP BY titleid ORDER BY \"most_watched\" DESC LIMIT 10;";
         }
-        else if(button3.isSelected()){
-            startStmt += "from 2004 - 2005";
+        else if(button3.isSelected()) {
+            startStmt = "from 2004 - 2005";
             sqlStmt = "SELECT titleid, COUNT(titleid) AS \"most_watched\" FROM customerratings WHERE date >= '2004-01-01' AND date <= '2005-12-31' AND customerid = " + String.valueOf(customerid) + " GROUP BY titleid ORDER BY \"most_watched\" DESC LIMIT 10;";
         }
-        else if(button4.isSelected()){
+        else if(button4.isSelected()) {
             startStmt += "All Time";
             sqlStmt = "SELECT titleid, COUNT(titleid) AS \"most_watched\" FROM customerratings WHERE date >= '1999-12-30' AND date <= '2005-12-31' AND customerid = " + String.valueOf(customerid) + " GROUP BY titleid ORDER BY \"most_watched\" DESC LIMIT 10;";
         }
@@ -140,17 +140,17 @@ public class customerGUI extends JFrame implements ActionListener,ItemListener {
             Statement statement = conn.createStatement();
             ResultSet set = statement.executeQuery(sqlStmt);
             String result = "";
-            while(set.next()){
+            while(set.next()) {
                 result += set.getString("titleid")+ "\n";
             }
             String output = "";
-            if(result.length() == 0){
+            if(result.length() == 0) {
                 output = "No watch history data from selected time interval";
-            }else{
+            }else {
                 String[] titles = result.split("\n");
                 
                 Vector<String> names = new Vector<String>();
-                for(String s : titles){
+                for(String s : titles) {
                     if(s.charAt(0) == 't'){
                         sqlStmt = "SELECT titlename FROM mediainfo WHERE titleid = '" + s + "';";
                         set = statement.executeQuery(sqlStmt);
@@ -171,11 +171,11 @@ public class customerGUI extends JFrame implements ActionListener,ItemListener {
             }
             output = startStmt + output;
             watchHistory.setText(output);
-        }catch(Exception exc){
+        }catch(Exception exc) {
             JOptionPane.showMessageDialog(null,"Error accessing Database");
         }
     }
-    public void itemStateChanged(ItemEvent e){
+    public void itemStateChanged(ItemEvent e) {
         // if the state combobox is changed
         if (e.getSource() == comb_box) {
         }

@@ -14,43 +14,43 @@ public class customerratings {
             conn = DriverManager.getConnection(dbConnectionString,userName, userPassword);
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName()+": "+e.getMessage());
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
 
         System.out.println("Opened database successfully");
         
-        try{
+        try {
 
-        Statement stmt = conn.createStatement();
+            Statement stmt = conn.createStatement();
 
-        String line;
-        File f = new File("../data/customer_ratingsClean.csv");
-        Scanner sc = new Scanner(f,"UTF-8");
+            String line;
+            File f = new File("../data/customer_ratingsClean.csv");
+            Scanner sc = new Scanner(f,"UTF-8");
 
-        while(sc.hasNextLine()) {
+            while(sc.hasNextLine()) {
 
-            String customerid = "";
-            String rating = "";
-            String date = "";
-            String titleid = "";
+                String customerid = "";
+                String rating = "";
+                String date = "";
+                String titleid = "";
 
-            line = sc.nextLine();
-            StringTokenizer tokens = new StringTokenizer(line);
-            customerid = tokens.nextToken();
-            rating = tokens.nextToken();
-            date = tokens.nextToken();
-            titleid = tokens.nextToken();
+                line = sc.nextLine();
+                StringTokenizer tokens = new StringTokenizer(line);
+                customerid = tokens.nextToken();
+                rating = tokens.nextToken();
+                date = tokens.nextToken();
+                titleid = tokens.nextToken();
 
-            String statement = "INSERT INTO customerratings VALUES('" + customerid + "'," + rating + "," + "'" + date + "'," + "'" + titleid + "');";
+                String statement = "INSERT INTO customerratings VALUES('" + customerid + "'," + rating + "," + "'" + date + "'," + "'" + titleid + "');";
 
-            stmt.executeUpdate(statement);
-        }
+                stmt.executeUpdate(statement);
+            }
         sc.close();
 
-    } catch (Exception e){
+    } catch (Exception e) {
         e.printStackTrace();
-        System.err.println(e.getClass().getName()+": "+e.getMessage());
+        System.err.println(e.getClass().getName() + ": " + e.getMessage());
         System.exit(0);
     }
     

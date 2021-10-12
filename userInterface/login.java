@@ -16,28 +16,28 @@ public class login {
 
         //Connecting to the database 
         try {
-            conn = DriverManager.getConnection(dbConnectionString,userName, userPassword);
+            conn = DriverManager.getConnection(dbConnectionString, userName, userPassword);
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName()+": "+e.getMessage());
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
         boolean loggedIn = false;
     
-        while(!loggedIn){
+        while(!loggedIn) {
             String input = JOptionPane.showInputDialog(null, "Enter \"admin\" for admin login or customerid for user login");
             
             String message = "SELECT customerid FROM customerratings WHERE (customerid = " + input + ") LIMIT 1";
 
-            if(Pattern.matches("[a-zA-Z]+", input) == true){
-                if(input.toLowerCase().equals("admin")){
+            if(Pattern.matches("[a-zA-Z]+", input) == true) {
+                if(input.toLowerCase().equals("admin")) {
                     loggedIn = true;
                     new analystGUI();
-                }else{
+                }else {
                     JOptionPane.showMessageDialog(null,"You must enter either \"admin\" or a customerid");
                 }
             }
-            else if(input.matches("[0-9]+")){
+            else if(input.matches("[0-9]+")) {
                     // SEND MESSAGE TO DATABASE
                 try{
                     Statement stmt = conn.createStatement();
@@ -51,12 +51,12 @@ public class login {
                         loggedIn = true;
                         new customerGUI(Integer.parseInt(input));
                     }
-                } catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
-                    System.err.println(e.getClass().getName()+": "+e.getMessage());
+                    System.err.println(e.getClass().getName() + ": " + e.getMessage());
                     System.exit(0);
                 }
-            }else{
+            }else {
                 JOptionPane.showMessageDialog(null,"You must enter either \"admin\" or a customerid");
             }
         }
